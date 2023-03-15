@@ -51,4 +51,25 @@ router.get('/video/:id', (req, res) => {
 });
 
 
+let count = 0;
+
+setInterval(() => {
+    count++;    
+}, 1000);
+
+router.get('/ticker', (req, res) => {
+    const header = {
+        'Access-Control-Allow-Origin': '*',
+        'Cache-Control': 'no-cache',
+        'connection': 'keep-alive',
+        'Content-Type': 'text/event-stream',
+    };
+
+    res.writeHead(200, header);
+    setInterval(() => {
+        res.write(`id: ${(new Date()).toLocaleTimeString()}\ndata: ${count}\n\n`);
+      }, 1000);
+});
+
+
 module.exports = router;
